@@ -15,13 +15,13 @@ from ResNet_Study.ResNet.Models.resnet18 import ResNet18
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
+device = torch.device('cuda')
 transform = transforms.Compose(
     [transforms.RandomHorizontalFlip(),
      transforms.RandomGrayscale(),
      transforms.ToTensor(),
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
 )
-
 trainset = torchvision.datasets.CIFAR10(root='./cifar10', train=True, download=True, transform=transform)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=100, shuffle=True, num_workers=2)
 
@@ -30,7 +30,7 @@ testloader = torch.utils.data.DataLoader(testset, batch_size=4, shuffle=False, n
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
-net = ResNet18(10)
+net = ResNet18(10).to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
@@ -49,7 +49,7 @@ if __name__ == '__main__':
         running_loss = 0.0
         for i,data in enumerate(trainloader, 0):
             inputs, labels = data
-            inputs, labels = Variable(inputs), Variable(labels)
+            inputs, labels = Variable(inputs).to(device), Variable(labels).to(device)
             optimizer.zero_grad()
             outputs = net(inputs)
             loss = criterion(outputs, labels)
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     total = 0
     for data in testloader:
         images, labels = data
-        outputs = net(Variable(images))
+        outputs = net(Variable(images)).to(device)
         _, predicted = torch.max(outputs.data, 1)
         total += labels.size(0)
         correct += (predicted == labels).sum()
@@ -89,7 +89,7 @@ if __name__ == '__main__':
     class_total = list(0. for i in range(10))
     for data in testloader:
         images, labels = data
-        outputs = net(Variable(images))
+        outputs = net(Variable(images)).to(device)
         _, predicted = torch.max(outputs.data, 1)
         c = (predicted == labels).squeeze()
         for i in range(4):
