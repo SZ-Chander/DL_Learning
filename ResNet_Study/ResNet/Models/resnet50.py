@@ -2,6 +2,7 @@ import torch
 from torch import nn
 from .resTools import Bottleneck
 
+
 class ResNet50(nn.Module):
     def __init__(self,num_classes):
         super(ResNet50,self).__init__()

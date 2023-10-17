@@ -11,8 +11,7 @@ import torch.optim as optim
 import matplotlib.pyplot as plt
 import numpy as np
 import time
-
-from ResNet.Models.resnet18 import ResNet18
+from ResNet_Study.ResNet.Models.resnet18 import ResNet18
 
 ssl._create_default_https_context = ssl._create_unverified_context
 

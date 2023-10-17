@@ -2,6 +2,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
+
 class BasicBlock(nn.Module):
     def __init__(self,in_channel:int,out_channel:int,stride:int,downsample=False):
         super(BasicBlock,self).__init__()

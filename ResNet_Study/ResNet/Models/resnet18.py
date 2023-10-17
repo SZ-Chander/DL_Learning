@@ -2,6 +2,7 @@ import torch
 from torch import nn
 from .resTools import BasicBlock
 
+
 class ResNet18(nn.Module):
     def __init__(self,num_classes=1000):
         super(ResNet18,self).__init__()
