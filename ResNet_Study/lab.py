@@ -11,7 +11,8 @@ import torch.optim as optim
 import matplotlib.pyplot as plt
 import numpy as np
 import time
-from ResNet_Study.ResNet.Models.resnet18 import ResNet18
+from ResNet.Models.resnet18 import ResNet18
+from DataSeter import Dataseter
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -22,10 +23,10 @@ transform = transforms.Compose(
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
 )
 #-----数据准备-----
-trainset = torchvision.datasets.CIFAR10(root='./cifar10', train=True, download=False, transform=transform)
+trainset = Dataseter(labelPath='datasets/labels/train.csv',transform=transform)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=100, shuffle=True, num_workers=2)
 
-testset = torchvision.datasets.CIFAR10(root='./cifar10', train=False, download=False, transform=transform)
+testset = Dataseter(labelPath='datasets/labels/test.csv',transform=transform)
 testloader = torch.utils.data.DataLoader(testset, batch_size=4, shuffle=False, num_workers=2)
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
@@ -41,14 +42,15 @@ optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
 if __name__ == '__main__':
     totalTime = 0
-    for epoch in range(100):
+    for epoch in range(10):
         print("epoch{} is started.".format(epoch+1))
         timestart = time.time()
         running_loss = 0.0
         for i,data in enumerate(trainloader, 0):
             inputs, labels = data
-            inputs = inputs.to(device)
-            labels = labels.to(device)
+            inputs = inputs.to(device) #1
+            labels = labels.to(device) #2
+            # print("inputs is in CPU? {}\nlabels is in CPU? {}".format(inputs.is_cpu,labels.is_cpu))
             inputs, labels = Variable(inputs), Variable(labels)
             optimizer.zero_grad()
             outputs = net(inputs)
