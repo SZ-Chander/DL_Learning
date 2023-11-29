@@ -24,10 +24,10 @@ transform = transforms.Compose(
 )
 #-----数据准备-----
 trainset = Dataseter(labelPath='datasets/labels/train.csv',transform=transform)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=100, shuffle=True, num_workers=2)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=100, shuffle=True, num_workers=4)
 
 testset = Dataseter(labelPath='datasets/labels/test.csv',transform=transform)
-testloader = torch.utils.data.DataLoader(testset, batch_size=4, shuffle=False, num_workers=2)
+testloader = torch.utils.data.DataLoader(testset, batch_size=4, shuffle=False, num_workers=4)
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 

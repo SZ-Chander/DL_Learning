@@ -1,0 +1,22 @@
+{
+  "batch_size": 4,
+  "LR": 0.001,
+  "weight": 1e-4,
+  "epoch": 50,
+  "start_epoch": 0,
+  "device": "mps",
+  "dataset_dir": "Data",
+  "save_path": "checkpoints",
+  "num_workers": 4,
+  "pretrain": false,
+  "pretrain_path": null,
+  "image_txt_path": "Data/train.txt",
+  "label_dir_path": "Data/labels",
+  "GL_CLASSES": [
+    "person","bird","cat","cow","dog","horse","sheep","aeroplane","bicycle","boat",
+    "bus","car","motorbike","train","bottle","chair","diningtable","pottedplant","sofa","tvmonitor"
+  ],
+  "val_txt_path": "Data/val.txt",
+  "log_file": "log/log_231129.txt",
+  "epoch_range": 10
+}
