@@ -13,9 +13,24 @@ class MyDataset(Dataset):
         self.imgPathList = Tools.removeReturnFromList(Tools.readTxt(imgTxtPath))
         self.lenDataset = len(self.imgPathList)
         self.classes = classes
+        self.len_classes = len(self.classes)
         if(trans == None):
             transform_list = [transforms.ToTensor()]
             transformer = transforms.Compose(transform_list)
             self.transform = transformer
         else:
             self.transform = trans
+    def __getitem__(self, index) -> (torch.Tensor, np.ndarray):
+        imgPath = self.imgPathList[index].replace('\n','')
+        imgNumpy = np.array(Image.open(imgPath))
+        imgTensor = self.transform(imgNumpy)
+        labelPath = self.imgPath2LabelPath(imgPath, self.imgType)
+        labelStr = Tools.readTxt(labelPath)
+        labelFloatList = Tools.labelStr2Float(labelStr)
+        labelNp = Tools.bbox2labels(labelFloatList,7,self.len_classes)
+        return imgTensor, labelNp
+
+    def imgPath2LabelPath(self,imgPath:str, imgType:str)->str:
+        labelName = imgPath.split('/')[-1].replace(imgType,'txt').replace('\n','')
+        labelPath = "{}/{}".format(self.labelDirPath,labelName)
+        return labelPath
