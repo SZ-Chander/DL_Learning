@@ -8,7 +8,6 @@ class Yolov1Loss:
         obj_confi_loss = 0.  # 含有目标的bbox的置信度损失
         class_loss = 0.  # 含有目标的网格的类别损失
         n_batch = labels.size()[0]  # batchsize的大小
-
         # 可以考虑用矩阵运算进行优化，提高速度，为了准确起见，这里还是用循环
         for i in range(n_batch):  # batchsize循环
             for n in range(num_grid):  # x方向网格循环
@@ -59,14 +58,6 @@ class Yolov1Loss:
     def calculate_iou(self,bbox1, bbox2):
         """计算bbox1=(x1,y1,x2,y2)和bbox2=(x3,y3,x4,y4)两个bbox的iou"""
         if (bbox1[2] <= bbox1[0] or bbox1[3] <= bbox1[1] or bbox2[2] <= bbox2[0] or bbox2[3] <= bbox2[1]):
-            # if(bbox1[2] <= bbox1[0]):
-            #     print('er1')
-            # if (bbox1[3] <= bbox1[1]):
-            #     print('er2')
-            # if (bbox2[2] <= bbox2[0]):
-            #     print('er3')
-            # if (bbox2[3] <= bbox2[1]):
-            #     print('er4')
             return 0  # 如果bbox1或bbox2没有面积，或者输入错误，直接返回0
 
         intersect_bbox = [0., 0., 0., 0.]  # bbox1和bbox2的重合区域的(x1,y1,x2,y2)

@@ -1,0 +1,181 @@
+2023-12-01 09:19:04
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.488, avg_loss = 19.488
+Training consumes 6.82 second
+2023-12-01 09:19:41
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.030, avg_loss = 19.030
+Training consumes 7.43 second
+2023-12-01 09:23:30
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.254, avg_loss = 19.254
+Training consumes 6.73 second
+2023-12-01 09:24:02
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.000, avg_loss = 19.000
+Training consumes 7.37 second
+2023-12-01 09:27:59
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.226, avg_loss = 19.226
+Training consumes 7.38 second
+2023-12-01 09:30:26
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.104, avg_loss = 19.104
+Training consumes 7.38 second
+2023-12-01 09:38:10
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.516, avg_loss = 19.516
+Training consumes 7.50 second
+2023-12-01 09:39:15
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.128, avg_loss = 19.128
+Training consumes 7.55 second
+2023-12-01 09:43:04
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.187, avg_loss = 19.187
+Training consumes 20.91 second
+2023-12-01 09:44:56
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.010, avg_loss = 19.010
+Training consumes 19.98 second
+2023-12-01 09:47:15
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.086, avg_loss = 19.086
+Training consumes 7.35 second
+2023-12-01 09:48:36
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.410, avg_loss = 19.410
+Training consumes 7.38 second
+2023-12-01 09:50:04
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.302, avg_loss = 19.302
+Training consumes 7.44 second
+2023-12-01 09:50:35
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.194, avg_loss = 19.194
+Training consumes 7.38 second
+2023-12-01 09:51:56
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.399, avg_loss = 19.399
+Training consumes 14.50 second
+2023-12-01 09:53:36
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.384, avg_loss = 19.384
+Training consumes 26.71 second
+2023-12-01 09:55:02
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.260, avg_loss = 19.260
+Training consumes 36.67 second
+2023-12-01 09:59:59
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.387, avg_loss = 19.387
+Training consumes 6.74 second
+2023-12-01 10:01:14
+======================training epoch 0======================
+Epoch 0/50 | Iter 0/1 | training loss = 19.439, avg_loss = 19.439
+Training consumes 6.72 second
+Average IOU in epoch0 - epoch0 is 0.1371951652820148
+2023-12-01 10:01:46
+======================training epoch 1======================
+Epoch 1/50 | Iter 0/1 | training loss = 12.223, avg_loss = 12.223
+Training consumes 6.56 second
+2023-12-01 10:01:52
+======================training epoch 2======================
+Epoch 2/50 | Iter 0/1 | training loss = 6.909, avg_loss = 6.909
+Training consumes 6.57 second
+2023-12-01 10:01:59
+======================training epoch 3======================
+Epoch 3/50 | Iter 0/1 | training loss = 3.301, avg_loss = 3.301
+2023-12-01 10:05:53
+======================training epoch 50======================
+Epoch 50/100 | Iter 0/1 | training loss = 0.073, avg_loss = 0.073
+Training consumes 6.75 second
+2023-12-01 10:06:00
+======================training epoch 51======================
+Epoch 51/100 | Iter 0/1 | training loss = 0.049, avg_loss = 0.049
+Training consumes 6.60 second
+2023-12-01 10:06:07
+======================training epoch 52======================
+Epoch 52/100 | Iter 0/1 | training loss = 0.026, avg_loss = 0.026
+Training consumes 6.57 second
+2023-12-01 10:06:13
+======================training epoch 53======================
+Epoch 53/100 | Iter 0/1 | training loss = 0.020, avg_loss = 0.020
+Training consumes 6.54 second
+2023-12-01 10:06:20
+======================training epoch 54======================
+Epoch 54/100 | Iter 0/1 | training loss = 0.023, avg_loss = 0.023
+Training consumes 6.54 second
+2023-12-01 10:06:26
+======================training epoch 55======================
+Epoch 55/100 | Iter 0/1 | training loss = 0.020, avg_loss = 0.020
+Training consumes 6.55 second
+2023-12-01 10:06:33
+======================training epoch 56======================
+Epoch 56/100 | Iter 0/1 | training loss = 0.019, avg_loss = 0.019
+Training consumes 6.56 second
+2023-12-01 10:06:39
+======================training epoch 57======================
+Epoch 57/100 | Iter 0/1 | training loss = 0.018, avg_loss = 0.018
+Training consumes 6.57 second
+2023-12-01 10:06:46
+======================training epoch 58======================
+Epoch 58/100 | Iter 0/1 | training loss = 0.016, avg_loss = 0.016
+Training consumes 6.57 second
+2023-12-01 10:06:53
+======================training epoch 59======================
+Epoch 59/100 | Iter 0/1 | training loss = 0.015, avg_loss = 0.015
+Training consumes 6.59 second
+2023-12-01 10:06:59
+======================training epoch 60======================
+Epoch 60/100 | Iter 0/1 | training loss = 0.014, avg_loss = 0.014
+2023-12-01 10:07:23
+======================training epoch 50======================
+Epoch 50/100 | Iter 0/1 | training loss = 0.073, avg_loss = 0.073
+Training consumes 11.94 second
+2023-12-01 10:07:35
+======================training epoch 51======================
+Epoch 51/100 | Iter 0/1 | training loss = 0.049, avg_loss = 0.049
+Training consumes 7.25 second
+2023-12-01 10:07:42
+======================training epoch 52======================
+Epoch 52/100 | Iter 0/1 | training loss = 0.026, avg_loss = 0.026
+Training consumes 7.21 second
+2023-12-01 10:08:15
+======================training epoch 50======================
+Epoch 50/100 | Iter 0/1 | training loss = 0.073, avg_loss = 0.073
+Training consumes 7.45 second
+2023-12-01 10:08:22
+======================training epoch 51======================
+Epoch 51/100 | Iter 0/1 | training loss = 0.049, avg_loss = 0.049
+Training consumes 7.27 second
+2023-12-01 10:08:30
+======================training epoch 52======================
+Epoch 52/100 | Iter 0/1 | training loss = 0.026, avg_loss = 0.026
+Training consumes 7.21 second
+2023-12-01 10:08:37
+======================training epoch 53======================
+Epoch 53/100 | Iter 0/1 | training loss = 0.020, avg_loss = 0.020
+Training consumes 7.21 second
+2023-12-01 10:08:44
+======================training epoch 54======================
+Epoch 54/100 | Iter 0/1 | training loss = 0.023, avg_loss = 0.023
+Training consumes 7.19 second
+Average IOU in epoch50 - epoch54 is 0.6340857483847392
+2023-12-01 10:09:24
+======================training epoch 55======================
+Epoch 55/100 | Iter 0/1 | training loss = 0.020, avg_loss = 0.020
+2023-12-03 21:24:01
+======================training epoch 50======================
+Epoch 50/100 | Iter 0/1 | training loss = 19.335, avg_loss = 19.335
+Training consumes 0.69 second
+2023-12-03 21:28:35
+======================training epoch 50======================
+Epoch 50/100 | Iter 0/1 | training loss = 19.871, avg_loss = 19.871
+Training consumes 0.71 second
+2023-12-03 21:29:40
+======================training epoch 50======================
+2023-12-03 21:39:25
+======================training epoch 50======================
+2023-12-03 21:40:08
+======================training epoch 50======================

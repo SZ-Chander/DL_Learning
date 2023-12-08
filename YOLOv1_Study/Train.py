@@ -8,6 +8,7 @@ from Tools.Tools import Tools
 from torch.utils.data import DataLoader
 from Models.Loss import Yolov1Loss
 from Tools.CitedUtil import Util
+import numpy as np
 
 class Train:
     def __init__(self,batch_size:int,lr:float,weight:float,epoch:int,start_epoch:int,device:str,dataset_dir:str,save_path:str,num_workers:int,pretrain:bool,pretrain_path:str,model:nn.Module,image_txt_path:str,label_dir_path:str,classes:list[str],val_txt_path:str,logFile:str,epoch_range:int):
@@ -33,7 +34,8 @@ class Train:
         train_dataset = MyDataset(imgTxtPath=self.image_txt_path,labelDirPath=self.label_dir_path,classes=self.classes)
         train_dataLoader = DataLoader(train_dataset,self.batch_size,shuffle=True,num_workers=self.num_workers)
         val_dataset = MyDataset(imgTxtPath=self.val_txt_path,labelDirPath=self.label_dir_path,classes=self.classes)
-        val_dataLoader = DataLoader(val_dataset,self.batch_size,shuffle=True,num_workers=self.num_workers)
+        val_dataLoader = DataLoader(val_dataset, 1, num_workers=0)
+        # val_dataLoader = DataLoader(val_dataset,self.batch_size,num_workers=self.num_workers)
         num_train = len(train_dataset.imgPathList)
         if(self.pretrain == True):
             model = torch.load(self.pretrain_path)
@@ -54,10 +56,10 @@ class Train:
             with open(self.logFile, "a+") as log_file:
                 log_file.write("Training consumes %.2f second\n" % (t_end - t_start))
 
-            # if(epoch+1 % self.epoch_range == 0):
-            #     self.valStep(model=model,val_loader=val_dataLoader,device=self.device,epoch=epoch,logPath=self.logFile,val_range=self.epoch_range)
-
-            if((epoch+1) % 2 == 0):
+            mess = self.valStep(model=model, val_loader=val_dataLoader, device=self.device, epoch=epoch,
+                                val_range=self.epoch_range)
+            print(mess)
+            if((epoch+1) % self.epoch_range == 0):
                 self.save_model(model=model,epoch=epoch,save_path=self.save_path)
         self.save_model(model=model,epoch=num_totalEpoch,save_path=self.save_path)
         print("Mission complete")
@@ -76,7 +78,6 @@ class Train:
             labels = labels.view(batch_size, 7, 7, -1)  # 一维升 7x7
             labels = labels.permute(0,3,1,2)  # 转置矩阵
             imgs = imgs.to(device)
-            # print("p1 {}".format(labels.shape))
             labels = labels.to(device)
             pred = model(imgs)
             loss = Yolov1Loss().loss(in_pred=pred,labels=labels)
@@ -92,29 +93,53 @@ class Train:
                 logFile.flush()
         # log end
         logFile.close()
+    def gtb2bbox(self,gtbox)->list[list[float]]:
+        box = []
+        boxes = []
+        for n, i in enumerate(gtbox):
+            box.append(float(i))
+            if ((n + 1) % 5 == 0):
+                newbox = self.xywh2xyxy(box)
+                boxes.append(newbox)
+                box = []
+        return boxes
+
     @staticmethod
-    def valStep(model:nn.Module,val_loader:DataLoader,device:str,epoch:int,logPath:str,val_range:int):
+    def xywh2xyxy(box):
+        x1 = box[1] - box[3] / 2
+        y1 = box[2] - box[4] / 2
+        x2 = box[1] + box[3] / 2
+        y2 = box[2] + box[4] / 2
+        newbox = [x1, y1, x2, y2, 1.0, box[0]]
+        return newbox
+
+    def valStep(self,model: nn.Module, val_loader: DataLoader, device: str, epoch: int, val_range: int):
         util = Util()
         model.eval()
         avg_iou = 0.0
         num_val = 0
-        log_file = open(logPath,'a+')
-        log_file.write("======================validate epoch %d======================\n" % epoch)
+        logFile = open(self.logFile, 'a+')
         with torch.no_grad():
-            for num,(imgs, labels,_) in enumerate(val_loader):
+            for num, (imgs, labels, _, GTBox) in enumerate(val_loader):
+                boxes = self.gtb2bbox(GTBox)
                 imgs = imgs.to(device)
-                labels = labels.to('cpu')
-                pred = model(imgs).cpu().squeeze(dim=0).permute(1,2,0)
+                pred = model(imgs).cpu()
+                pred = pred.squeeze(dim=0).permute(1, 2, 0)
                 pred_bbox = util.labels2bbox(pred)
-                groundTrue = util.labels2bbox(labels)
-                iou = Yolov1Loss().calculate_iou(pred_bbox,groundTrue)
-                avg_iou += iou
-                num_val += 1
-            mess = "Average IOU in epoch{} - epoch{} is {}\n".format(epoch-val_range+1,epoch,avg_iou/num_val)
-            log_file.write(mess)
-            print(mess)
-            log_file.flush()
-            log_file.close()
+                for box in np.array(boxes):
+                    for p_box in pred_bbox:
+                        if(p_box[4] <= 0.4):
+                            continue
+                        iou = Yolov1Loss().calculate_iou(box, p_box)
+                        avg_iou += iou
+                        num_val += 1
+            title = "======================validate epoch {}======================".format(epoch)
+            mess = "Average IOU in epoch{} - epoch{} is {}\n".format(epoch - val_range + 1, epoch, avg_iou / num_val)    #
+            fullMess = "{}\n{}".format(title,mess)
+            logFile.write(fullMess)
+            logFile.flush()
+            logFile.close()
+            return mess
     @staticmethod
     def save_model(model:nn.Module,epoch,save_path):
         modelName = "epoch{}.pt".format(epoch)
@@ -153,7 +178,7 @@ def startTrain(jsonData:dict,model:nn.Module):
     print('Train finished')
 
 if __name__ == '__main__':
-    setupPath = 'Arguments/Train_start_from_epoch4.json'
+    setupPath = 'Arguments/Train_debug.json'
     jsonData = Tools().readJson(setupPath)
     GL_CLASSES = jsonData['GL_CLASSES']
     model = YOLOv1(GL_CLASSES)
