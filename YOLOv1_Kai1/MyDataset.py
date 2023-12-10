@@ -20,6 +20,8 @@ class MyDataset(Dataset):
             self.transform = transformer
         else:
             self.transform = trans
+    def __len__(self)->int:
+        return self.lenDataset
     def __getitem__(self, index) -> (torch.Tensor, np.ndarray):
         imgPath = self.imgPathList[index].replace('\n','')
         imgNumpy = np.array(Image.open(imgPath))

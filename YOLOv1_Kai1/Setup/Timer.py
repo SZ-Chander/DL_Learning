@@ -12,4 +12,5 @@ class TimeLogMission:
             log.write(totalMess)
             log.flush()
             log.close()
+            print(totalMess)
         return forward

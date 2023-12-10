@@ -52,6 +52,7 @@ class Yolov1Loss:
                         noobj_confi_loss = noobj_confi_loss + 0.5 * torch.sum(in_pred[i, [4, 9], m, n] ** 2)
 
         loss = coor_loss + obj_confi_loss + noobj_confi_loss + class_loss
+        # print("coor_loss={}, obj_confi_loss={}, class_loss={}, noobj_confi_loss={}".format(coor_loss,obj_confi_loss,class_loss,noobj_confi_loss))
         # 此处可以写代码验证一下loss的大致计算是否正确，这个要验证起来比较麻烦，比较简洁的办法是，将输入的pred置为全1矩阵，再进行误差检查，会直观很多。
         return loss / n_batch
 
@@ -75,3 +76,16 @@ class Yolov1Loss:
         iou = area_intersect / (area1 + area2 - area_intersect + 1e-6)  # 防止除0
 
         return iou
+
+if __name__ == '__main__':
+    pred_sample46 = "/Users/szchandler/Desktop/DLPythonCode/DL_Learning/YOLOv1_Kai1/sample/Pred_Iter46.pt"
+    pred_sample47 = "/Users/szchandler/Desktop/DLPythonCode/DL_Learning/YOLOv1_Kai1/sample/Pred_Iter47.pt"
+    label_sample46 = "/Users/szchandler/Desktop/DLPythonCode/DL_Learning/YOLOv1_Kai1/sample/label_Iter46.pt"
+    label_sample47 = "/Users/szchandler/Desktop/DLPythonCode/DL_Learning/YOLOv1_Kai1/sample/label_Iter47.pt"
+    pred46 = torch.load(pred_sample46).cpu()
+    pred47 = torch.load(pred_sample47).cpu()
+    label46 = torch.load(label_sample46).cpu()
+    label47 = torch.load(label_sample47).cpu()
+
+    loss = Yolov1Loss().loss(in_pred=pred46,labels=label46)
+    print(loss)

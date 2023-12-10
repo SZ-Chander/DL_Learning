@@ -178,7 +178,7 @@ def startTrain(jsonData:dict,model:nn.Module):
     print('Train finished')
 
 if __name__ == '__main__':
-    setupPath = 'Arguments/Train_debug.json'
+    setupPath = 'Arguments/Train_start.json'
     jsonData = Tools().readJson(setupPath)
     GL_CLASSES = jsonData['GL_CLASSES']
     model = YOLOv1(GL_CLASSES)

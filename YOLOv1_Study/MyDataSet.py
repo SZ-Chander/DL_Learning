@@ -72,7 +72,7 @@ if __name__ == '__main__':
                   'aeroplane', 'bicycle', 'boat', 'bus', 'car', 'motorbike', 'train',
                   'bottle', 'chair', 'diningtable', 'pottedplant', 'sofa', 'tvmonitor']
     md = MyDataset('Data/train.txt','Data/labels',GL_CLASSES,'jpg')
-    a, b, c = md.__getitem__(0)
+    a, b, c, d = md.__getitem__(0)
     print(a)
     print(b)
     print(c)

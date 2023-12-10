@@ -1,5 +1,5 @@
 import json
-import numpy as np
+
 class Tools:
     @staticmethod
     def readJson(jsonPath:str)->dict:

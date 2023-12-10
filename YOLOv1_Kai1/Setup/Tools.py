@@ -28,14 +28,14 @@ class Tools:
         return labelBbox
     @staticmethod
     def bbox2labels(bbox:[float],gridNum:int,len_classes:int) -> np.ndarray:
-        gridSize = 1 / gridNum
-        labelNp = np.zeros([7,7,10+len_classes],dtype=np.float32)
+        gridSize = 1.0 / gridNum
+        labelNp = np.zeros((7,7,10+len_classes),dtype=np.float32)
         for i in range(len(bbox) // 5):
-            gridColumn = bbox[i * 5 + 1] // gridSize
-            gridRow = bbox[i * 5 + 2] // gridSize
+            gridColumn = int(bbox[i * 5 + 1] // gridSize)
+            gridRow = int(bbox[i * 5 + 2] // gridSize)
             px = bbox[i * 5 + 1] / gridSize - gridColumn
             py = bbox[i * 5 + 2] / gridSize - gridRow
-            labelNp[gridRow, gridColumn,0:5] = np.array([px, py, bbox[i*5+3], bbox[i*5+4], 1])
+            labelNp[gridRow, gridColumn,0:5] = np.array([px, py, bbox[i * 5 + 3], bbox[i * 5 + 4], 1])
             labelNp[gridRow, gridColumn,5:10] = np.array([px, py, bbox[i*5+3], bbox[i*5+4], 1])
             labelNp[gridRow, gridColumn, 10 + int(bbox[i*5+0])] = 1
         return labelNp
