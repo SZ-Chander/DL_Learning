@@ -1,8 +1,8 @@
-Data/img/2009_001521.jpg
-Data/img/2008_008176.jpg
-Data/img/2011_002379.jpg
-Data/img/2011_001698.jpg
-Data/img/2008_005657.jpg
-Data/img/2012_002233.jpg
-Data/img/2010_000830.jpg
-Data/img/2011_002765.jpg
+Data/imgs/2009_001521.jpg
+Data/imgs/2008_008176.jpg
+Data/imgs/2011_002379.jpg
+Data/imgs/2011_001698.jpg
+Data/imgs/2008_005657.jpg
+Data/imgs/2012_002233.jpg
+Data/imgs/2010_000830.jpg
+Data/imgs/2011_002765.jpg

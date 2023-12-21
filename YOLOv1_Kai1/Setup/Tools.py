@@ -29,7 +29,7 @@ class Tools:
     @staticmethod
     def bbox2labels(bbox:[float],gridNum:int,len_classes:int) -> np.ndarray:
         gridSize = 1.0 / gridNum
-        labelNp = np.zeros((7,7,10+len_classes),dtype=np.float32)
+        labelNp = np.zeros((gridNum,gridNum,10+len_classes),dtype=np.float32)
         for i in range(len(bbox) // 5):
             gridColumn = int(bbox[i * 5 + 1] // gridSize)
             gridRow = int(bbox[i * 5 + 2] // gridSize)

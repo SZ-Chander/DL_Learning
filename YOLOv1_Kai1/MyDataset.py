@@ -30,7 +30,7 @@ class MyDataset(Dataset):
         labelStr = Tools.readTxt(labelPath)
         labelFloatList = Tools.labelStr2Float(labelStr)
         labelNp = Tools.bbox2labels(labelFloatList,7,self.len_classes)
-        return imgTensor, labelNp
+        return imgTensor, labelNp, labelFloatList, labelPath
 
     def imgPath2LabelPath(self,imgPath:str, imgType:str)->str:
         labelName = imgPath.split('/')[-1].replace(imgType,'txt').replace('\n','')

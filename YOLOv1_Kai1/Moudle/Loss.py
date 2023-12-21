@@ -46,9 +46,9 @@ class YoloV1Loss:
                            (in_pred[1+start, row, column] + row) / num_grid + in_pred[3+start, row, column] / 2)
         return bbox1_pred_xyxy
     @staticmethod
-    def calculateIOU(pred_box,gt_box):
+    def calculateIOU(pred_box:tuple,gt_box:tuple) -> torch.Tensor:
         if (pred_box[2] <= pred_box[0] or pred_box[3] <= pred_box[1] or gt_box[2] <= gt_box[0] or gt_box[3] <= gt_box[1]):
-            return 0.0
+            return torch.tensor(0.0)
         coincidentBox = [0.0, 0.0, 0.0, 0.0]
         coincidentBox[0] = (max(pred_box[0],gt_box[0]))
         coincidentBox[1] = (max(pred_box[1], gt_box[1]))
@@ -78,14 +78,9 @@ class YoloV1Loss:
         return torch.sum(in_pred[[4,9],row,column] ** 2)
 
 if __name__ == '__main__':
-    pred_sample46 = "../sample/Pred_Iter46.pt"
-    pred_sample47 = "../sample/Pred_Iter47.pt"
-    label_sample46 = "../sample/label_Iter46.pt"
-    label_sample47 = "../sample/label_Iter47.pt"
-    pred46 = torch.load(pred_sample46).cpu()
-    pred47 = torch.load(pred_sample47).cpu()
-    label46 = torch.load(label_sample46).cpu()
-    label47 = torch.load(label_sample47).cpu()
-
-    loss = YoloV1Loss().loss(in_pred=pred46,labels=label46)
+    pred_sample = "../sample/Pred_Iter371.pt"
+    label_sample = "../sample/Label_Iter371.pt"
+    pred = torch.load(pred_sample).cpu()
+    labels = torch.load(label_sample).cpu()
+    loss = YoloV1Loss().loss(in_pred=pred,labels=labels)
     print(loss)

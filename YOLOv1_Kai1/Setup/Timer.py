@@ -8,9 +8,10 @@ class TimeLogMission:
             logMess = f(*args,**kwargs)
             time_2 = time.time()
             t = time_2 - time_1
-            totalMess = "{}\n{} spend {} seconds\n{}\n".format(logMess,missionName,t,'='*30)
+            lastMess = "{} spend {} seconds\n{}\n".format(missionName, t, '='*30)
+            totalMess = "{}\n{}".format(logMess,lastMess)
             log.write(totalMess)
             log.flush()
             log.close()
-            print(totalMess)
+            print(lastMess)
         return forward

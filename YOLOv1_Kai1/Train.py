@@ -7,12 +7,13 @@ from Moudle.YOLOv1 import YOLOv1Kai
 from Setup.Tools import Tools
 from torch.utils.data import DataLoader
 from Moudle.Loss import YoloV1Loss
+from Test import Val
 # ==============import package==========
 timeLogMission = TimeLogMission.timeLogMission
 # =========Global Variable and Method=========
 
 class Train:
-    def __init__(self,batch_size:int,lr:float,weight:float,epoch:int,start_epoch:int,device:str,dataset_dir:str,save_path:str,num_workers:int,pretrain:bool,pretrain_path:str,model:nn.Module,image_txt_path:str,label_dir_path:str,classes:list[str],val_txt_path:str,logFile:str,epoch_range:int,setupPath:str):
+    def __init__(self,batch_size:int,lr:float,weight:float,epoch:int,start_epoch:int,device:str,dataset_dir:str,save_path:str,num_workers:int,pretrain:bool,pretrain_path:str,model:nn.Module,image_txt_path:str,label_dir_path:str,classes:list[str],val_txt_path:str,logFile:str,epoch_range:int,setupPath:str,valSuperTrust:float,valSuperIOU:float):
         self.batch_size = batch_size
         self.Lr = lr
         self.weight = weight
@@ -32,14 +33,18 @@ class Train:
         self.logFile = logFile
         self.epoch_range = epoch_range
         self.setupPath = setupPath
+        self.valSuperTrust = valSuperTrust
+        self.valSuperIOU = valSuperIOU
     def forward(self):
         timeStart = datetime.datetime.now()
         train_dataset = MyDataset(imgTxtPath=self.image_txt_path,labelDirPath=self.label_dir_path,classes=self.classes)
         train_dataLoader = DataLoader(train_dataset,self.batch_size,shuffle=True,num_workers=self.num_workers)
         val_dataset = MyDataset(imgTxtPath=self.val_txt_path, labelDirPath=self.label_dir_path, classes=self.classes)
         val_dataLoader = DataLoader(val_dataset, batch_size=self.batch_size, num_workers=self.num_workers,shuffle=True)
+        val = Val(val_dataloader=val_dataLoader,super_trust=self.valSuperTrust,super_iou=self.valSuperIOU,classes=self.classes,device=self.device,gridSize=7)
         if (self.pretrain == True):
-            model = torch.load(self.pretrain_path)
+            model = self.model
+            model.load_state_dict(torch.load(self.pretrain_path))
         else:
             model = self.model
         model.to(self.device)
@@ -50,6 +55,10 @@ class Train:
             totalEpoch += 1
             self.train(model=model,train_loader=train_dataLoader,device=self.device,optimizer=optimizer,epoch=epoch,totalEpoch=self.epoch,
                        missionName="Epoch{}".format(epoch),logPath=self.logFile)
+            mess = val.forward(model)
+            mess = mess.format(epoch)
+            self.writeLog(mess)
+            print(mess)
             if ((epoch + 1) % self.epoch_range == 0):
                 self.save_model(model=model, epoch=epoch, save_path=self.save_path)
         timeEnd = datetime.datetime.now()
@@ -63,7 +72,7 @@ class Train:
     def save_model(model:nn.Module,epoch,save_path) -> None:
         modelName = "epoch{}.pt".format(epoch)
         save_dir = "{}/{}".format(save_path,modelName)
-        torch.save(model, save_dir)
+        torch.save(model.state_dict(), save_dir)
     @staticmethod
     @timeLogMission
     def train(model,train_loader,device,optimizer,epoch,totalEpoch) -> str:
@@ -73,7 +82,7 @@ class Train:
         print(startMess)
         totalIter = len(train_loader)
         totalEpochMess = ""
-        for num,(imgs,labels) in enumerate(train_loader):
+        for num,(imgs,labels,_,_) in enumerate(train_loader):
             labels = labels.permute(0,3,1,2)
             imgs = imgs.to(device)
             labels = labels.to(device)
@@ -108,19 +117,21 @@ def startTrain(jsonData:dict, model:nn.Module, setupPath:str):
     classes = jsonData['GL_CLASSES']
     logPath = jsonData['log_file']
     epoch_range = jsonData['epoch_range']
+    valSuperTrust = jsonData['superTrust']
+    valSuperIOU = jsonData['superIOU']
 
     Train(
         batch_size=batch_size,lr=LR,weight=weight,epoch=epoch,start_epoch=start_epoch,
         device=device,dataset_dir=dataset_dir,save_path=save_path,num_workers=num_workers,
         pretrain=pretrain,pretrain_path=pretrain_path,model=model,image_txt_path=image_txt_path,
         label_dir_path=label_dir_path,classes=classes,val_txt_path=val_txt_path,logFile=logPath,
-        epoch_range=epoch_range, setupPath=setupPath
+        epoch_range=epoch_range, setupPath=setupPath, valSuperTrust=valSuperTrust,valSuperIOU=valSuperIOU
     ).forward()
 
     print('Train finished')
 
 if __name__ == '__main__':
-    setupPath = 'Arguments/Train_from_epoch0.json'
+    setupPath = 'Arguments/Train_from_epoch64.json'
     jsonData = Tools().readJson(setupPath)
     GL_CLASSES = jsonData['GL_CLASSES']
     model = YOLOv1Kai(GL_CLASSES)
