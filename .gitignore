@@ -2,9 +2,10 @@
 /YOLOv1_Study/Data/img/
 /YOLOv1_Study/Data/labels/
 /YOLOv1_Kai1/checkpoints/
-/YOLOv1_Kai1/Data/img/
+/YOLOv1_Kai1/Data/imgs/
 /YOLOv1_Kai1/Data/labels/
 /YOLOv1_Kai1/Data/VOC/
-/CitedCode/
+/YOLOv1_Kai1/sample
+/CitedCodes/
 /ResNet_Study/datasets/train_cifar10/
 /ResNet_Study/datasets/test_cifar10/

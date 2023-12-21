@@ -1,12 +1,9 @@
 import numpy as np
-import torch.nn as nn
 import torchvision.transforms
-from torch.utils.data import DataLoader
 from Tools.CitedUtil import Util
 from PIL import Image,ImageDraw,ImageFont
 import torch
-from Models.Loss import Yolov1Loss
-from MyDataSet import MyDataset
+from Models.MyYOLOv1 import YOLOv1
 
 class Pred:
     def __init__(self,imgPath:str,modelPath:str,device:str):
@@ -56,7 +53,8 @@ class Pred:
 
 
     def startPred(self)->(Image.Image, np.ndarray):
-        model = torch.load(self.modelPath)
+        model = (YOLOv1(self.classes))
+        model.load_state_dict((torch.load(self.modelPath)))
         model = model.to(self.device)
         img = Image.open(self.imgPath)
         labels = self.predsigleImg(img,model,self.device)
@@ -110,7 +108,8 @@ class Pred:
 
 if __name__ == '__main__':
     imgPath = "Data/img/2010_000227.jpg"
-    modelPath = "checkpoints/20231129/epoch49.pt"
+    modelPath = "/Users/szchandler/Desktop/DLPythonCode/DL_Learning/YOLOv1_Kai1/checkpoints/231216/epoch97.pt"
+    # modelPath = "checkpoints/20231129/epoch49.pt"
     device = 'mps'
     pred = Pred(imgPath,modelPath,device)
     success = pred.forward()
