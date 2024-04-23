@@ -114,7 +114,7 @@ if __name__ == '__main__':
         ]
     val_dataset = MyDataset(imgTxtPath='Data/test.txt', labelDirPath='Data/labels', classes=cls)
     val_dataLoader = DataLoader(val_dataset, batch_size=4, num_workers=0, shuffle=True)
-    val = Val(val_dataloader=val_dataLoader,super_trust=0.4,super_iou=0.5,classes=cls,device='cpu',gridSize=7)
+    val = Val(val_dataloader=val_dataLoader,super_trust=0.4,super_iou=0.5,classes=cls,device='mps',gridSize=7)
     # model = torch.load("checkpoints/20231129/epoch49.pt")
     model = YOLOv1Kai(cls)
     model.load_state_dict(torch.load("checkpoints/231216/epoch97.pt"))
