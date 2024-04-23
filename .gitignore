@@ -9,3 +9,5 @@
 /CitedCodes/
 /ResNet_Study/datasets/train_cifar10/
 /ResNet_Study/datasets/test_cifar10/
+#/ModelTranser/ONNX_Model
+/MobileNet_Study/checkpoints
